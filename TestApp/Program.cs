@@ -3,19 +3,24 @@
 namespace TestApp
 {
     // Задание на рефакторинг
-
     // Необходимо выполнить рефакторинг приведенного кода, обеспечив соблюдение практик и принципов ООП.
 
     class Program
     {
-        private static MasterBase _mMaster;
-        private static IEnumerable<Data> _data;
-
         static void Main()
         {
-            _mMaster = new MasterFasad();
+            // todo: use IoC
+            var dataFormatter = new DataFormatter();
+            var masterHelper = new MasterHelper(dataFormatter);
+            var master = new Master(masterHelper);
+            var dataAssertor = new DataAssertor();
+            var masterFacade = new MasterFacade(master, dataAssertor);
+            var logger = new Logger();
+            var masterFacadeDecorator = new MasterFacadeDecorator(masterFacade, logger);
 
-            _mMaster.TryGetData(out _data);
+            IEnumerable<Data> data;
+
+            masterFacadeDecorator.TryGetData(out data);
         }
     }
 }

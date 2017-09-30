@@ -4,44 +4,33 @@ using System.Linq;
 
 namespace TestApp
 {
-    public class MasterHelper : IMasterHelperContract, IDisposable
+    public interface IMasterHelper
     {
-        private readonly Data[] _innerData;
+        IEnumerable<Data> GetFormattedData(string name, string format);
+    }
 
-        public MasterHelper()
+    public class MasterHelper : IMasterHelper
+    {
+        // todo: initialize from constructor (in case of config file)
+        private const int MinLength = 3;
+        private const int MaxLength = 28;
+
+        private readonly IDataFormatter _dataFormatter;
+
+        public MasterHelper(IDataFormatter dataFormatter)
         {
-            _innerData = toArray(Database.GetData());
+            _dataFormatter = dataFormatter;
         }
 
-        private static Data[] toArray(IEnumerable<Data> data)
-        {
-            Data[] d = new Data[data.Count()];
-            int i = 0;
-            foreach (var __data_item in data)
-            {
-                d[i++] = __data_item;
-            }
-
-            return d;
-        }
-
-        public void Dispose()
-        {
-            Database.Close();
-        }
-
-        private int ___MINLEN = 3;
-        public int ___MAXLEN = 28;
-
-        private void validate(string format)
+        private void Validate(string format)
         {
             if (format == null)
                 throw new ArgumentNullException();
             if (format != "")
             {
-                if (format.Length >= 28)
+                if (format.Length >= MaxLength)
                     throw new ArgumentOutOfRangeException("Превышена длина формата");
-                if (format.Length <= 3)
+                if (format.Length <= MinLength)
                     throw new ArgumentOutOfRangeException("Превышена длина формата");
 
                 if (format != "сумма прописью" || format != "сумма в рублях")
@@ -53,8 +42,17 @@ namespace TestApp
 
         public IEnumerable<Data> GetFormattedData(string name, string format)
         {
-            validate(name);
-            return _innerData.Where(id => id.Name.StartsWith(name)).Select(x => x.Format(format));
+            Validate(name);
+
+            using (var database = new Database())
+            {
+                var data = database.GetData();
+                var result =
+                    data
+                        .Where(x => x.Name.StartsWith(name))
+                        .Select(x => _dataFormatter.Format(format, x));
+                return result;
+            }
         }
     }
 }

@@ -41,8 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
+    <Compile Include="DataAssertor.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="DataFormatter.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Master.cs" />
+    <Compile Include="MasterFacade.cs" />
+    <Compile Include="MasterFacadeDecorator.cs" />
+    <Compile Include="MasterHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,20 +4,26 @@ using System.Linq;
 
 namespace TestApp
 {
-    public class Master : MasterBase
+    public interface IMaster
     {
-        private static MasterHelper _helper;
+        void TryGetData(out IEnumerable<Data> data);
+    }
 
-        public Master(MasterHelper helper)
+    public class Master : IMaster
+    {
+        private readonly IMasterHelper _helper;
+
+        public Master(IMasterHelper helper)
         {
             _helper = helper;
         }
 
-        public override void TryGetData(out IEnumerable<Data> data)
+        public void TryGetData(out IEnumerable<Data> data)
         {
+            // todo: move strings to method parameters
             data = _helper.GetFormattedData("price", "сумма прописью");
 
-            if (data.ToList().Count == 0)
+            if (!data.Any())
                 throw new InvalidOperationException();
         }
     }

@@ -2,11 +2,16 @@ using System;
 
 namespace TestApp
 {
-    public static class Logger
+    public interface ILogger
     {
-        public static void Log(object data)
+        void Log(object data);
+    }
+
+    public class Logger : ILogger
+    {
+        public void Log(object data)
         {
-            Console.WriteLine(data.ToString());
+            Console.WriteLine(data);
         }
     }
 }
