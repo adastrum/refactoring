@@ -16,11 +16,10 @@ namespace TestApp
             var dataAssertor = new DataAssertor();
             var masterFacade = new MasterFacade(master, dataAssertor);
             var logger = new Logger();
+            // todo: register decorator as IMasterFacade
             var masterFacadeDecorator = new MasterFacadeDecorator(masterFacade, logger);
 
-            IEnumerable<Data> data;
-
-            masterFacadeDecorator.TryGetData(out data);
+            var data = masterFacadeDecorator.TryGetData();
         }
     }
 }

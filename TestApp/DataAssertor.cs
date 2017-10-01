@@ -6,7 +6,8 @@ namespace TestApp
 {
     public interface IDataAssertor
     {
-        object Process(object data);
+        // todo: interface constraint + marker interface for Data -> where T: IEnumerable<IData>
+        T Process<T>(T data);
     }
 
     public class DataAssertor : IDataAssertor
@@ -16,16 +17,21 @@ namespace TestApp
         private const int To = 9999;
 
         // ≈сли данные - это массив, провер€ем, что он не пустой. ≈сли данные не массив, провер€ем, что это не null
-        public object Process(object data)
+        public T Process<T>(T data)
         {
-            if (data is IEnumerable<Data>)
-            {
-                int temp;
-                return ((IEnumerable<Data>)data)
-                    .Where(x => int.TryParse(x.Number, out temp))
-                    .Where(x => int.Parse(x.Number) >= From && int.Parse(x.Number) <= To);
-            }
-            throw new NotSupportedException();
+            var enumerable = data as IEnumerable<Data>;
+
+            if (enumerable == null)
+                throw new NotSupportedException();
+
+            var result = enumerable
+                .Where(x =>
+                {
+                    int temp;
+                    return int.TryParse(x.Number, out temp) && temp >= From && temp <= To;
+                });
+
+            return (T)result;
         }
     }
 }

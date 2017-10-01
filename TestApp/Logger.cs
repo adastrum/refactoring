@@ -4,12 +4,12 @@ namespace TestApp
 {
     public interface ILogger
     {
-        void Log(object data);
+        void Log<T>(T data);
     }
 
     public class Logger : ILogger
     {
-        public void Log(object data)
+        public void Log<T>(T data)
         {
             Console.WriteLine(data);
         }

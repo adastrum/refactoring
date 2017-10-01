@@ -15,14 +15,9 @@ namespace TestApp
             return new List<Data>();
         }
 
-        public void Close()
-        {
-            _closed = true;
-        }
-
         public void Dispose()
         {
-            Close();
+            _closed = true;
         }
     }
 }

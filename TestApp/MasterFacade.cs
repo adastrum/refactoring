@@ -4,8 +4,8 @@ namespace TestApp
 {
     public interface IMasterFacade
     {
-        void TryGetData(out IEnumerable<Data> data);
-        void TryGetProcessedData(out IEnumerable<Data> data);
+        IEnumerable<Data> TryGetData();
+        IEnumerable<Data> TryGetProcessedData();
     }
 
     public class MasterFacade : IMasterFacade
@@ -19,17 +19,18 @@ namespace TestApp
             _dataAssertor = dataAssertor;
         }
 
-        public void TryGetData(out IEnumerable<Data> data)
+        public IEnumerable<Data> TryGetData()
         {
-            _master.TryGetData(out data);
+            var data = _master.TryGetData();
+            return data;
 
         }
 
-        public void TryGetProcessedData(out IEnumerable<Data> data)
+        public IEnumerable<Data> TryGetProcessedData()
         {
-            _master.TryGetData(out data);
-
-            data = (IEnumerable<Data>)_dataAssertor.Process(data);
+            var data = _master.TryGetData();
+            var processedData = _dataAssertor.Process(data);
+            return processedData;
         }
     }
 }
