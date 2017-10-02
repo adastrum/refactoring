@@ -6,7 +6,7 @@ namespace TestApp
 {
     public interface IMaster
     {
-        IEnumerable<Data> TryGetData();
+        IEnumerable<Data> GetData(string name, string format);
     }
 
     public class Master : IMaster
@@ -18,10 +18,10 @@ namespace TestApp
             _helper = helper;
         }
 
-        public IEnumerable<Data> TryGetData()
+        public IEnumerable<Data> GetData(string name, string format)
         {
             // todo: move strings to method parameters
-            var data = _helper.GetFormattedData("price", "сумма прописью");
+            var data = _helper.GetFormattedData(name, format);
 
             if (!data.Any())
                 throw new InvalidOperationException();

@@ -2,6 +2,7 @@ using System;
 
 namespace TestApp
 {
+    // todo: use nlog
     public interface ILogger
     {
         void Log<T>(T data);

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TestApp
+﻿namespace TestApp
 {
     // Задание на рефакторинг
     // Необходимо выполнить рефакторинг приведенного кода, обеспечив соблюдение практик и принципов ООП.
@@ -11,7 +9,9 @@ namespace TestApp
         {
             // todo: use IoC
             var dataFormatter = new DataFormatter();
-            var masterHelper = new MasterHelper(dataFormatter);
+            var formatProvider = new FormatProvider();
+            var formatValidator = new FormatValidator(formatProvider);
+            var masterHelper = new MasterHelper(dataFormatter, formatValidator);
             var master = new Master(masterHelper);
             var dataAssertor = new DataAssertor();
             var masterFacade = new MasterFacade(master, dataAssertor);
@@ -19,7 +19,7 @@ namespace TestApp
             // todo: register decorator as IMasterFacade
             var masterFacadeDecorator = new MasterFacadeDecorator(masterFacade, logger);
 
-            var data = masterFacadeDecorator.TryGetData();
+            var data = masterFacadeDecorator.GetData("price", DataFormats.WrittenSum);
         }
     }
 }

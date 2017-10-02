@@ -13,18 +13,18 @@ namespace TestApp
             _logger = logger;
         }
 
-        public IEnumerable<Data> TryGetData()
+        public IEnumerable<Data> GetData(string name, string format)
         {
-            var data = _decorated.TryGetData();
+            var data = _decorated.GetData(name, format);
 
             Log(data);
 
             return data;
         }
 
-        public IEnumerable<Data> TryGetProcessedData()
+        public IEnumerable<Data> GetProcessedData(string name, string format)
         {
-            var processedData = _decorated.TryGetProcessedData();
+            var processedData = _decorated.GetProcessedData(name, format);
 
             Log(processedData);
 

@@ -45,6 +45,8 @@
     <Compile Include="DataAssertor.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DataFormatter.cs" />
+    <Compile Include="FormatProvider.cs" />
+    <Compile Include="FormatValidator.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Master.cs" />
     <Compile Include="MasterFacade.cs" />
